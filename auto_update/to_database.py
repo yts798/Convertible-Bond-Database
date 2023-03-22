@@ -9,13 +9,11 @@ import datetime
 from datetime import datetime
 from operator import itemgetter
 
-
-data_folder_path = 'C:\\Users\\goodluck\\Desktop\\database_workspace'
-raw_data_path =  "C:\\Users\\goodluck\\Desktop\\database_workspace\\raw_data"
-storage_path =  "C:\\Users\\goodluck\\Desktop\\database_workspace\\database_storage"
-update_path =   "C:\\Users\\goodluck\\Desktop\\database_workspace\\auto_update"
+data_folder_path = 'C:\\Users\\goodluck\\Desktop\\DB'
+raw_data_path =  "C:\\Users\\goodluck\\Desktop\\DB\\raw_data"
+storage_path =  "C:\\Users\\goodluck\\Desktop\\DB\\database_storage"
+update_path =   "C:\\Users\\goodluck\\Desktop\\DB\\auto_update"
 DTBS_path = os.path.join(storage_path, "DTBS.pkl")
-
 
 def find_diff(list1,list2):
     bt = set(list1).intersection(set(list2)) 
@@ -46,6 +44,7 @@ with open(DTBS_path, 'rb') as f:
 tdd =datetime.today()
 td = tdd.strftime('%Y-%m-%d')
 name = td + '-light.csv'
+
 
 
 
@@ -134,6 +133,7 @@ for term in index_dict['rows']:
     if term['id'] == '000832':
         prc = term['cell']['price']
         break
+
 DTBS['C']['zi'][td] = prc
     
     
