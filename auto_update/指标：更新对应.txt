@@ -1,0 +1,6 @@
+
+收盘价/转股溢价率/债券到期收益率/债券余额/换手率/剩余期限/正股代码/正股名称/正股最新季度扣非净利润单季度同比增长:
+price/premium_rt/ytm_rt/curr_iss_amt/turnover_rt/year_left/stock_id/stock_nm/
+
+
+{"id":"123118","cell":{"bond_id":"123118","bond_nm":"惠城转债","bond_py":"hczz","price":238,"increase_rt":-0.99,"stock_id":"300779","stock_nm":"惠城环保","stock_py":"hchb","sprice":40.7,"sincrease_rt":-0.73,"pb":5.85,"convert_price":17.06,"convert_value":238.57,"convert_dt":0,"premium_rt":-0.24,"dblow":237.76,"sw_cd":"760103","market_cd":"szcy","btype":"C","list_dt":"2021-07-26","qflag2":"N","owned":0,"hold":0,"bond_value":"buy","rating_cd":"A+","option_value":null,"put_convert_price":11.94,"force_redeem_price":22.18,"convert_amt_ratio":7.4,"fund_rt":"buy","short_maturity_dt":"27-07-06","year_left":4.315,"curr_iss_amt":2.717,"volume":41787.6,"svolume":8195.39,"turnover_rt":63.74,"ytm_rt":-14.75,"put_ytm_rt":null,"noted":0,"bond_nm_tip":"","redeem_icon":"","last_time":"15:34:39","qstatus":"00","margin_flg":"","sqflag":"Y","pb_flag":"N","adj_cnt":0,"adj_scnt":0,"convert_price_valid":"Y","convert_price_tips":"","convert_cd_tip":"2022-01-13 开始转股","ref_yield_info":"计算使用4.4年期 评级为A+ 债参考YTM：8.7475","adjusted":"N","orig_iss_amt":3.2,"price_tips":"全价：238.000 最后更新：15:34:39","redeem_dt":null,"real_force_redeem_price":null,"option_tip":"","notes":null,"volatility_rate":"buy"}}
