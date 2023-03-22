@@ -135,7 +135,7 @@ for term in index_dict['rows']:
         prc = term['cell']['price']
         break
 
-DTBS['C']['zi'][td] = prc
+DTBS['C']['zi'][td] = np.float64(prc)
     
     
 # save
