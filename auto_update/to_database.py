@@ -42,6 +42,7 @@ with open(DTBS_path, 'rb') as f:
     
     
 tdd =datetime.today()
+
 td = tdd.strftime('%Y-%m-%d')
 name = td + '-light.csv'
 
