@@ -96,7 +96,7 @@ for code in new:
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
     
     DTBS['B'][code] = dict()
-    DTBS['B'][code]['ipo_dt'] = new_df.loc[int(code[0:6])]['list_dt']
+    DTBS['B'][code]['ipo'] = new_df.loc[int(code[0:6])]['list_dt']
     DTBS['B'][code]['cn'] = new_df.loc[int(code[0:6])]['bond_nm']
     DTBS['B'][code]['sc'] = convert_code(new_df.loc[int(code[0:6])]['stock_id'], new_df.loc[int(code[0:6])]['market_cd'])
     DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
