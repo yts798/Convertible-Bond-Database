@@ -72,6 +72,7 @@ for code in bt:
     DTBS['A'][code][td]['bl'] = new_df.loc[int(code[0:6])]['curr_iss_amt']
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
+    DTBS['A'][code][td]['ia'] = 1
     
 for code in new:
     DTBS['A'][code] = dict()
@@ -84,6 +85,7 @@ for code in new:
         DTBS['A'][code][dt]['bl'] = np.nan
         DTBS['A'][code][dt]['trt'] = np.nan
         DTBS['A'][code][dt]['yl'] = np.nan
+        DTBS['A'][code][dt]['ia'] = 0
     
    
     DTBS['A'][code][td] = dict()
@@ -94,9 +96,11 @@ for code in new:
     DTBS['A'][code][td]['bl'] = new_df.loc[int(code[0:6])]['curr_iss_amt']
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
+    DTBS['A'][code][td]['ia'] = 1
     
     DTBS['B'][code] = dict()
     DTBS['B'][code]['ipo'] = new_df.loc[int(code[0:6])]['list_dt']
+    DTBS['B'][code]['dld'] = '2046-01-01'
     DTBS['B'][code]['cn'] = new_df.loc[int(code[0:6])]['bond_nm']
     DTBS['B'][code]['sc'] = convert_code(new_df.loc[int(code[0:6])]['stock_id'], new_df.loc[int(code[0:6])]['market_cd'])
     DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
@@ -112,7 +116,8 @@ for code in die:
     DTBS['A'][code][td]['ytm'] = np.nan
     DTBS['A'][code][td]['bl'] = np.nan
     DTBS['A'][code][td]['trt'] = np.nan
-    DTBS['A'][code][td]['yl'] = 0
+    DTBS['A'][code][td]['yl'] = np.nan
+    DTBS['A'][code][td]['ia'] = 0
     
 
 DTBS['D']['day'].append(td)
