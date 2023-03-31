@@ -42,15 +42,18 @@ with open(DTBS_path, 'rb') as f:
     
     
 tdd =datetime.today()
-
 td = tdd.strftime('%Y-%m-%d')
 name = td + '-light.csv'
+name_full = td + '-full.csv'
 
 
 
 
 new_df = pd.read_csv(name, encoding='utf-8')
 new_df.set_index('bond_id', inplace=True)
+
+new_full_df = pd.read_csv(name_full, encoding='utf-8')
+new_full_df.set_index('bond_id', inplace=True)
 
 new_code = [str(i) for i in list(new_df.index)]
 new_key = []
@@ -65,6 +68,8 @@ bt, al, new, die = find_diff(new_key,old_key)
 for code in bt:
 
     DTBS['A'][code][td] = dict()
+    s_code = DTBS['B'][code]['sc']
+    DTBS['E'][s_code][td] = dict()
     DTBS['A'][code][td]['cpr'] = new_df.loc[int(code[0:6])]['premium_rt']
     DTBS['A'][code][td]['dp'] = new_df.loc[int(code[0:6])]['price']
     DTBS['A'][code][td]['dl'] = new_df.loc[int(code[0:6])]['premium_rt'] + new_df.loc[int(code[0:6])]['price']
@@ -73,9 +78,17 @@ for code in bt:
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
     DTBS['A'][code][td]['ia'] = 1
+    DTBS['A'][code][td]['qs'] = 0
+    DTBS['A'][code][td]['xx'] = 0
+    DTBS['A'][code][td]['hs'] = 0
+    
+
+    DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     
 for code in new:
     DTBS['A'][code] = dict()
+    s_code = DTBS['B'][code]['sc']
+    DTBS['E'][s_code][td] = dict()
     for dt in DTBS['D']['day']:
         DTBS['A'][code][dt] = dict()
         DTBS['A'][code][dt]['cpr'] = np.nan
@@ -86,9 +99,15 @@ for code in new:
         DTBS['A'][code][dt]['trt'] = np.nan
         DTBS['A'][code][dt]['yl'] = np.nan
         DTBS['A'][code][dt]['ia'] = 0
+        DTBS['A'][code][dt]['qs'] = 0
+        DTBS['A'][code][dt]['xx'] = 0
+        DTBS['A'][code][dt]['hs'] = 0
+        DTBS['E'][s_code][dt]['cl'] = 0
     
    
     DTBS['A'][code][td] = dict()
+    s_code = DTBS['B'][code]['sc']
+    DTBS['E'][s_code][td] = dict()
     DTBS['A'][code][td]['cpr'] = new_df.loc[int(code[0:6])]['premium_rt']
     DTBS['A'][code][td]['dp'] = new_df.loc[int(code[0:6])]['price']
     DTBS['A'][code][td]['dl'] = new_df.loc[int(code[0:6])]['premium_rt'] + new_df.loc[int(code[0:6])]['price']
@@ -97,6 +116,10 @@ for code in new:
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
     DTBS['A'][code][td]['ia'] = 1
+    DTBS['A'][code][td]['qs'] = 0
+    DTBS['A'][code][td]['xx'] = 0
+    DTBS['A'][code][td]['hs'] = 0
+    
     
     DTBS['B'][code] = dict()
     DTBS['B'][code]['ipo'] = new_df.loc[int(code[0:6])]['list_dt']
@@ -105,11 +128,15 @@ for code in new:
     DTBS['B'][code]['sc'] = convert_code(new_df.loc[int(code[0:6])]['stock_id'], new_df.loc[int(code[0:6])]['market_cd'])
     DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
     DTBS['B'][code]['cat1'] = np.nan
-    DTBS['B'][code]['cat2'] = np.nan                 
+    DTBS['B'][code]['cat2'] = np.nan        
+    
+    DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     
     
 for code in die:
     DTBS['A'][code][td] = dict()
+    s_code = DTBS['B'][code]['sc']
+    DTBS['E'][s_code][td] = dict()
     DTBS['A'][code][td]['cpr'] = np.nan
     DTBS['A'][code][td]['dp'] = np.nan
     DTBS['A'][code][td]['dl'] = 999
@@ -118,6 +145,10 @@ for code in die:
     DTBS['A'][code][td]['trt'] = np.nan
     DTBS['A'][code][td]['yl'] = np.nan
     DTBS['A'][code][td]['ia'] = 0
+    DTBS['A'][code][td]['qs'] = 0
+    DTBS['A'][code][td]['xx'] = 0
+    DTBS['A'][code][td]['hs'] = 0
+    DTBS['E'][s_code][td]['cl'] = 0
     
 
 DTBS['D']['day'].append(td)
