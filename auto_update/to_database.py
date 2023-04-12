@@ -77,6 +77,7 @@ for code in bt:
     DTBS['A'][code][td]['bl'] = new_df.loc[int(code[0:6])]['curr_iss_amt']
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
+    DTBS['A'][code][td]['csp'] = new_full_df.loc[int(code[0:6])]['convert_price']
     DTBS['A'][code][td]['ia'] = 1
     DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
@@ -84,13 +85,26 @@ for code in bt:
     
 
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
-    
+    DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
+
 for code in new:
     DTBS['A'][code] = dict()
+    
+    DTBS['B'][code] = dict()
+    DTBS['B'][code]['ipo'] = new_df.loc[int(code[0:6])]['list_dt']
+    DTBS['B'][code]['dld'] = '2046-01-01'
+    DTBS['B'][code]['cn'] = new_df.loc[int(code[0:6])]['bond_nm']
+    DTBS['B'][code]['sc'] = convert_code(new_df.loc[int(code[0:6])]['stock_id'], new_df.loc[int(code[0:6])]['market_cd'])
+    DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
+    DTBS['B'][code]['cat1'] = np.nan
+    DTBS['B'][code]['cat2'] = np.nan 
+
     s_code = DTBS['B'][code]['sc']
+    DTBS['E'][s_code] = dict()
     DTBS['E'][s_code][td] = dict()
     for dt in DTBS['D']['day']:
         DTBS['A'][code][dt] = dict()
+        DTBS['E'][s_code][dt] = dict()
         DTBS['A'][code][dt]['cpr'] = np.nan
         DTBS['A'][code][dt]['dp'] = np.nan
         DTBS['A'][code][dt]['dl'] = 999        
@@ -98,11 +112,14 @@ for code in new:
         DTBS['A'][code][dt]['bl'] = np.nan
         DTBS['A'][code][dt]['trt'] = np.nan
         DTBS['A'][code][dt]['yl'] = np.nan
+        DTBS['A'][code][dt]['csp'] = np.nan
         DTBS['A'][code][dt]['ia'] = 0
         DTBS['A'][code][dt]['qs'] = 0
         DTBS['A'][code][dt]['xx'] = 0
         DTBS['A'][code][dt]['hs'] = 0
         DTBS['E'][s_code][dt]['cl'] = 0
+        DTBS['E'][s_code][dt]['pb'] = 0
+
     
    
     DTBS['A'][code][td] = dict()
@@ -115,22 +132,18 @@ for code in new:
     DTBS['A'][code][td]['bl'] = new_df.loc[int(code[0:6])]['curr_iss_amt']
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
+    DTBS['A'][code][td]['csp'] = new_full_df.loc[int(code[0:6])]['convert_price']
     DTBS['A'][code][td]['ia'] = 1
     DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
     
     
-    DTBS['B'][code] = dict()
-    DTBS['B'][code]['ipo'] = new_df.loc[int(code[0:6])]['list_dt']
-    DTBS['B'][code]['dld'] = '2046-01-01'
-    DTBS['B'][code]['cn'] = new_df.loc[int(code[0:6])]['bond_nm']
-    DTBS['B'][code]['sc'] = convert_code(new_df.loc[int(code[0:6])]['stock_id'], new_df.loc[int(code[0:6])]['market_cd'])
-    DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
-    DTBS['B'][code]['cat1'] = np.nan
-    DTBS['B'][code]['cat2'] = np.nan        
+       
     
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
+    DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
+
     
     
 for code in die:
@@ -144,24 +157,27 @@ for code in die:
     DTBS['A'][code][td]['bl'] = np.nan
     DTBS['A'][code][td]['trt'] = np.nan
     DTBS['A'][code][td]['yl'] = np.nan
+    DTBS['A'][code][td]['csp'] = np.nan
     DTBS['A'][code][td]['ia'] = 0
     DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
     DTBS['E'][s_code][td]['cl'] = 0
-    
+    DTBS['E'][s_code][td]['pb'] = 0
 
-DTBS['D']['day'].append(td)
-if tdd.weekday() == 0:
-    DTBS['D']['mon'].append(td)
-elif tdd.weekday() == 1:
-    DTBS['D']['tue'].append(td)
-if tdd.weekday() == 2:
-    DTBS['D']['wed'].append(td)
-if tdd.weekday() == 3:
-    DTBS['D']['thu'].append(td)
-if tdd.weekday() == 4:
-    DTBS['D']['fri'].append(td)
+if td not in DTBS['D']['day']:
+
+    DTBS['D']['day'].append(td)
+    if tdd.weekday() == 0:
+        DTBS['D']['mon'].append(td)
+    elif tdd.weekday() == 1:
+        DTBS['D']['tue'].append(td)
+    if tdd.weekday() == 2:
+        DTBS['D']['wed'].append(td)
+    if tdd.weekday() == 3:
+        DTBS['D']['thu'].append(td)
+    if tdd.weekday() == 4:
+        DTBS['D']['fri'].append(td)
     
 index = requests.get('https://www.jisilu.cn/data/idx_performance/list/flex_idx')
 index_dict = index.json()
