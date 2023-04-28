@@ -42,6 +42,7 @@ with open(DTBS_path, 'rb') as f:
     
     
 tdd =datetime.today()
+
 td = tdd.strftime('%Y-%m-%d')
 name = td + '-light.csv'
 name_full = td + '-full.csv'
@@ -69,6 +70,7 @@ for code in bt:
 
     DTBS['A'][code][td] = dict()
     s_code = DTBS['B'][code]['sc']
+    
     DTBS['E'][s_code][td] = dict()
     DTBS['A'][code][td]['cpr'] = new_df.loc[int(code[0:6])]['premium_rt']
     DTBS['A'][code][td]['dp'] = new_df.loc[int(code[0:6])]['price']
@@ -83,9 +85,20 @@ for code in bt:
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
     
-
+    DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
+#     if code == '127075.SZ':
+#         print(DTBS['E']['002455.SZ']['2023-04-21'])
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
+#     if code == '127075.SZ':
+#         print(DTBS['E']['002455.SZ']['2023-04-21'])
+#     if code == '127075.SZ':
+#         print(new_full_df.loc[int(code[0:6])]['sprice'],  new_full_df.loc[int(code[0:6])]['pb'])
+#         print(s_code, td, DTBS['E'][s_code][td])
+#         print(DTBS['E']['002455.SZ']['2023-04-21'])
+
+ 
+
 
 for code in new:
     DTBS['A'][code] = dict()
@@ -100,11 +113,16 @@ for code in new:
     DTBS['B'][code]['cat2'] = np.nan 
 
     s_code = DTBS['B'][code]['sc']
-    DTBS['E'][s_code] = dict()
-    DTBS['E'][s_code][td] = dict()
+    if not DTBS['E'].__contains__(s_code):
+        DTBS['E'][s_code] = dict()
+    if not DTBS['E'][s_code].__contains__(td):    
+        DTBS['E'][s_code][td] = dict()
     for dt in DTBS['D']['day']:
         DTBS['A'][code][dt] = dict()
-        DTBS['E'][s_code][dt] = dict()
+        if not DTBS['E'][s_code].__contains__(dt):  
+            DTBS['E'][s_code][dt] = dict()
+            DTBS['E'][s_code][dt]['cl'] = 0
+            DTBS['E'][s_code][dt]['pb'] = 0
         DTBS['A'][code][dt]['cpr'] = np.nan
         DTBS['A'][code][dt]['dp'] = np.nan
         DTBS['A'][code][dt]['dl'] = 999        
@@ -117,8 +135,7 @@ for code in new:
         DTBS['A'][code][dt]['qs'] = 0
         DTBS['A'][code][dt]['xx'] = 0
         DTBS['A'][code][dt]['hs'] = 0
-        DTBS['E'][s_code][dt]['cl'] = 0
-        DTBS['E'][s_code][dt]['pb'] = 0
+
 
     
    
@@ -144,12 +161,11 @@ for code in new:
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
 
-    
-    
+
 for code in die:
     DTBS['A'][code][td] = dict()
     s_code = DTBS['B'][code]['sc']
-    DTBS['E'][s_code][td] = dict()
+
     DTBS['A'][code][td]['cpr'] = np.nan
     DTBS['A'][code][td]['dp'] = np.nan
     DTBS['A'][code][td]['dl'] = 999
@@ -162,8 +178,12 @@ for code in die:
     DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
-    DTBS['E'][s_code][td]['cl'] = 0
-    DTBS['E'][s_code][td]['pb'] = 0
+    if not DTBS['E'][s_code].__contains__(td):
+        DTBS['E'][s_code][td] = dict()
+        DTBS['E'][s_code][td]['cl'] = 0
+        DTBS['E'][s_code][td]['pb'] = 0
+
+  
 
 if td not in DTBS['D']['day']:
 
@@ -189,7 +209,7 @@ for term in index_dict['rows']:
 
 DTBS['C']['zi'][td] = np.float64(prc)
     
-    
+
 # save
     
 f_save = open(DTBS_path, 'wb')
