@@ -96,6 +96,7 @@ for code in bt:
 #         print(new_full_df.loc[int(code[0:6])]['sprice'],  new_full_df.loc[int(code[0:6])]['pb'])
 #         print(s_code, td, DTBS['E'][s_code][td])
 #         print(DTBS['E']['002455.SZ']['2023-04-21'])
+    DTBS['A'][code][td]['csv'] = ((100.0 / DTBS['A'][code][td]['csp']) *  DTBS['E'][s_code][td]['cl'])
 
  
 
@@ -131,6 +132,7 @@ for code in new:
         DTBS['A'][code][dt]['trt'] = np.nan
         DTBS['A'][code][dt]['yl'] = np.nan
         DTBS['A'][code][dt]['csp'] = np.nan
+        DTBS['A'][code][dt]['csv'] = np.nan
         DTBS['A'][code][dt]['ia'] = 0
         DTBS['A'][code][dt]['qs'] = 0
         DTBS['A'][code][dt]['xx'] = 0
@@ -150,6 +152,7 @@ for code in new:
     DTBS['A'][code][td]['trt'] = new_df.loc[int(code[0:6])]['turnover_rt']
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
     DTBS['A'][code][td]['csp'] = new_full_df.loc[int(code[0:6])]['convert_price']
+
     DTBS['A'][code][td]['ia'] = 1
     DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
@@ -160,7 +163,7 @@ for code in new:
     
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
-
+    DTBS['A'][code][td]['csv'] = ((100.0 / DTBS['A'][code][td]['csp']) *  DTBS['E'][s_code][td]['cl'])
 
 for code in die:
     DTBS['A'][code][td] = dict()
@@ -174,6 +177,7 @@ for code in die:
     DTBS['A'][code][td]['trt'] = np.nan
     DTBS['A'][code][td]['yl'] = np.nan
     DTBS['A'][code][td]['csp'] = np.nan
+    DTBS['A'][code][td]['csv'] = np.nan                              
     DTBS['A'][code][td]['ia'] = 0
     DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
