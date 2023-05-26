@@ -44,6 +44,7 @@ with open(DTBS_path, 'rb') as f:
 tdd =datetime.today()
 
 td = tdd.strftime('%Y-%m-%d')
+
 name = td + '-light.csv'
 name_full = td + '-full.csv'
 
@@ -67,9 +68,10 @@ old_key = [i for i in list(DTBS['B'].keys())]
 bt, al, new, die = find_diff(new_key,old_key)
 
 for code in bt:
-
     DTBS['A'][code][td] = dict()
     s_code = DTBS['B'][code]['sc']
+    
+    DTBS['B'][code]['sn'] = new_df.loc[int(code[0:6])]['stock_nm']
     
     DTBS['E'][s_code][td] = dict()
     DTBS['A'][code][td]['cpr'] = new_df.loc[int(code[0:6])]['premium_rt']
@@ -81,7 +83,6 @@ for code in bt:
     DTBS['A'][code][td]['yl'] = new_df.loc[int(code[0:6])]['year_left']
     DTBS['A'][code][td]['csp'] = new_full_df.loc[int(code[0:6])]['convert_price']
     DTBS['A'][code][td]['ia'] = 1
-    DTBS['A'][code][td]['qs'] = 0
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
     
@@ -90,6 +91,7 @@ for code in bt:
 #         print(DTBS['E']['002455.SZ']['2023-04-21'])
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
+    
 #     if code == '127075.SZ':
 #         print(DTBS['E']['002455.SZ']['2023-04-21'])
 #     if code == '127075.SZ':
@@ -98,7 +100,27 @@ for code in bt:
 #         print(DTBS['E']['002455.SZ']['2023-04-21'])
     DTBS['A'][code][td]['csv'] = ((100.0 / DTBS['A'][code][td]['csp']) *  DTBS['E'][s_code][td]['cl'])
 
- 
+    if DTBS['E'][s_code][td]['cl'] / DTBS['A'][code][td]['csp'] > 1.2987:
+        DTBS['A'][code][td]['qs'] = 1
+    else:
+        DTBS['A'][code][td]['qs'] = 0
+                
+            
+            
+    idx = len(DTBS['D']['day'])
+    idx15 = [i for i in range(idx-14, idx)]
+    idx30 = [i for i in range(idx-29, idx)]
+    s = DTBS['A'][code][td]['qs']
+    for j in idx15:
+        if DTBS['A'][code][DTBS['D']['day'][j]]['qs'] == 1:
+            s += 1
+        DTBS['A'][code][td]['qs15'] = s
+    s = DTBS['A'][code][td]['qs']
+    for j in idx30:                
+        if DTBS['A'][code][DTBS['D']['day'][j]]['qs'] == 1:
+            s += 1
+        DTBS['A'][code][td]['qs30'] = s                
+
 
 
 for code in new:
@@ -135,6 +157,8 @@ for code in new:
         DTBS['A'][code][dt]['csv'] = np.nan
         DTBS['A'][code][dt]['ia'] = 0
         DTBS['A'][code][dt]['qs'] = 0
+        DTBS['A'][code][dt]['qs15'] = 0
+        DTBS['A'][code][dt]['qs30'] = 0
         DTBS['A'][code][dt]['xx'] = 0
         DTBS['A'][code][dt]['hs'] = 0
 
@@ -154,7 +178,7 @@ for code in new:
     DTBS['A'][code][td]['csp'] = new_full_df.loc[int(code[0:6])]['convert_price']
 
     DTBS['A'][code][td]['ia'] = 1
-    DTBS['A'][code][td]['qs'] = 0
+
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
     
@@ -164,6 +188,19 @@ for code in new:
     DTBS['E'][s_code][td]['cl'] = new_full_df.loc[int(code[0:6])]['sprice']
     DTBS['E'][s_code][td]['pb'] = new_full_df.loc[int(code[0:6])]['pb']
     DTBS['A'][code][td]['csv'] = ((100.0 / DTBS['A'][code][td]['csp']) *  DTBS['E'][s_code][td]['cl'])
+    
+    
+    if DTBS['E'][s_code][td]['cl'] / DTBS['A'][code][td]['csp'] > 1.2987:
+        DTBS['A'][code][td]['qs'] = 1
+        DTBS['A'][code][td]['qs15'] = 1
+        DTBS['A'][code][td]['qs30'] = 1
+    else:
+        DTBS['A'][code][td]['qs'] = 0
+        DTBS['A'][code][td]['qs15'] = 0
+        DTBS['A'][code][td]['qs30'] = 0
+                
+        
+
 
 for code in die:
     DTBS['A'][code][td] = dict()
@@ -180,8 +217,11 @@ for code in die:
     DTBS['A'][code][td]['csv'] = np.nan                              
     DTBS['A'][code][td]['ia'] = 0
     DTBS['A'][code][td]['qs'] = 0
+    DTBS['A'][code][td]['qs15'] = 0
+    DTBS['A'][code][td]['qs30'] = 0
     DTBS['A'][code][td]['xx'] = 0
     DTBS['A'][code][td]['hs'] = 0
+    DTBS['B'][code]['dld'] = td
     if not DTBS['E'][s_code].__contains__(td):
         DTBS['E'][s_code][td] = dict()
         DTBS['E'][s_code][td]['cl'] = 0
@@ -213,7 +253,16 @@ for term in index_dict['rows']:
 
 DTBS['C']['zi'][td] = np.float64(prc)
     
-
+f = open(td+'-log.txt','a', encoding='utf-8')
+f.write('今日('+td+')共有'+ str(len(new))+'支新债上市'+',目前市面上活跃转债数量为'+str(len(new_key))+'支\n')
+f.write('今日转股价变化监控：\n')
+ystd = DTBS['D']['day'][-2]
+for cd in bt:
+    if DTBS['A'][cd][ystd]['csp'] != DTBS['A'][cd][td]['csp']:
+#         f.write('转债 ' + cd + ' ' + DTBS['B'][cd]['cn'] + '转股价昨日为'+ str(round(DTBS['A'][cd][ystd]['csp'],2)) +',今日为'+ str(round(DTBS['A'][cd][td]['csp'],2)) + ',变化幅度为' + str(round(100*(DTBS['A'][cd][td]['csp'] -  DTBS['A'][cd][ystd]['csp'])/ DTBS['A'][cd][ystd]['csp']),2) +'%\n')
+         f.write(cd + ' ' + DTBS['B'][cd]['cn'] + '转股价昨日为'+ str(round(DTBS['A'][cd][ystd]['csp'],2)) +',今日为'+ str(round(DTBS['A'][cd][td]['csp'],2))+ ',变化幅度为' + str(round((((DTBS['A'][cd][td]['csp'] -  DTBS['A'][cd][ystd]['csp'])/DTBS['A'][cd][ystd]['csp']) * 100),2)) +'%\n')
+    
+f.close()
 # save
     
 f_save = open(DTBS_path, 'wb')
