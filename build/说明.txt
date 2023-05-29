@@ -1,0 +1,13 @@
+这个部分是建造数据库的过程，因为考虑到数据时效性，如果数据库丢失的话从这里重新跑代码建立数据库会很麻烦，因此并不建议反复使用这些代码，里面的代码建议仅供参考。
+
+代码文件：
+initialise:从头建立主数据库（DTBS）
+initialise_new:从头建立2点实时数据库（DCBS）
+两个delisting:主要负责添加退市可转债
+stock_info,sectionE,F:主要负责添加对应正股信息
+updatesw, createCat:基于申万分类，添加了申万大分类，招商分类，并加入我们自己分的yqq分类
+updatecsp,bond_VALUE:添加了转股价，纯债价值等
+updatexxqs:早期强赎下修，目前基本没用
+update_qs:添加靠谱的强赎观测
+update_xx：记录了成功下修，并未存储
+windAPI:使用wind量化接口，后续很少使用。

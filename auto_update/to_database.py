@@ -192,12 +192,12 @@ for code in new:
     
     if DTBS['E'][s_code][td]['cl'] / DTBS['A'][code][td]['csp'] > 1.2987:
         DTBS['A'][code][td]['qs'] = 1
-        DTBS['A'][code][td]['qs15'] = 1
-        DTBS['A'][code][td]['qs30'] = 1
+        DTBS['A'][code][td]['qs15'] += 1
+        DTBS['A'][code][td]['qs30'] += 1
     else:
         DTBS['A'][code][td]['qs'] = 0
-        DTBS['A'][code][td]['qs15'] = 0
-        DTBS['A'][code][td]['qs30'] = 0
+        DTBS['A'][code][td]['qs15'] = min(0, DTBS['A'][code][td]['qs15']-1)
+        DTBS['A'][code][td]['qs30'] = min(0, DTBS['A'][code][td]['qs30']-1)
                 
         
 
