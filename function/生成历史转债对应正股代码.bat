@@ -1,0 +1,1 @@
+python stcodeall.py
