@@ -1,2 +1,2 @@
 # cbdb
- from ccpe
+ from chi-courser
