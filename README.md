@@ -1,2 +1,2 @@
 # cbdb
- from chi-courser
+ from chi-courser 青骓基金
