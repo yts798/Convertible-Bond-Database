@@ -93,4 +93,4 @@ alll = np.array(alll)
 idx = ['name', 'code', 'open', 'close', 'low', 'high', 'amount', 'number']
 allst = [getpinyin(i) for i in allnames]
 sw_df = pd.DataFrame(alll.T, columns=allst, index=idx)
-sw_df.to_csv(datetime.date.today().strftime('%Y-%m-%d') + '-swid.csv')
+sw_df.to_csv(datetime.date.today().strftime('%Y-%m-%d') + '-swid.csv', encoding='utf-8_sig')

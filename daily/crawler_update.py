@@ -11,8 +11,8 @@ login_header = {
 login_url = 'https://www.jisilu.cn/webapi/account/login_process/'
 login_info = {
    "return_url": "https://www.jisilu.cn/",
-   "user_name": "c3bccbdd0540a4d14f828a38e013e505",
-   "password": "d6fc78015d1d08ac20375ffa2b3d7361",
+   "user_name": "d0cb8eb409b54ff8444593da78e20495",
+   "password": "09e373cb61c6dc7d2f9ca59fdc996067",
    "aes": 1,
    "auto_login": 0
 }

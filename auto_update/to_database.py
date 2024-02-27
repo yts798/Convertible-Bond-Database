@@ -252,7 +252,7 @@ for term in index_dict['rows']:
         break
 
 DTBS['C']['zi'][td] = np.float64(prc)
-    
+
 f = open(td+'-log.txt','a', encoding='utf-8')
 f.write('今日('+td+')共有'+ str(len(new))+'支新债上市'+',目前市面上活跃转债数量为'+str(len(new_key))+'支\n')
 f.write('今日转股价变化监控：\n')
